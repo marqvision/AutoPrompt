@@ -1,5 +1,5 @@
-from optimization_pipeline import OptimizationPipeline
-from utils.config import load_yaml, override_config
+from AutoPrompt.optimization_pipeline import OptimizationPipeline
+from AutoPrompt.utils.config import load_yaml, override_config
 import argparse
 
 # General Training Parameters

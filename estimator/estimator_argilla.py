@@ -2,8 +2,8 @@ import argilla as rg
 import time
 import pandas as pd
 from argilla.client.singleton import active_client
-from utils.config import Color
-from dataset.base_dataset import DatasetBase
+from AutoPrompt.utils.config import Color
+from AutoPrompt.dataset.base_dataset import DatasetBase
 import json
 import webbrowser
 import base64

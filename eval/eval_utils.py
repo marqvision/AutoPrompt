@@ -1,4 +1,4 @@
-from estimator.estimator_llm import LLMEstimator
+from AutoPrompt.estimator.estimator_llm import LLMEstimator
 
 
 def set_function_from_iterrow(func):

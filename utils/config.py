@@ -1,3 +1,4 @@
+import os
 import yaml
 from easydict import EasyDict as edict
 from langchain.prompts import PromptTemplate
@@ -8,7 +9,9 @@ from langchain_openai.chat_models import AzureChatOpenAI
 from langchain.chains import LLMChain
 import logging
 
-LLM_ENV = yaml.safe_load(open('config/llm_env.yml', 'r'))
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.dirname(current_dir)
+LLM_ENV = yaml.safe_load(open(os.path.join(root_dir, 'config', 'llm_env.yml'), 'r'))
 
 
 class Color:

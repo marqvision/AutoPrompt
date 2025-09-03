@@ -1,5 +1,5 @@
-from estimator.estimator_llm import LLMEstimator
-from dataset.base_dataset import DatasetBase
+from AutoPrompt.estimator.estimator_llm import LLMEstimator
+from AutoPrompt.dataset.base_dataset import DatasetBase
 import pandas as pd
 
 

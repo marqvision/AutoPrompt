@@ -1,9 +1,9 @@
 import pandas as pd
 
-from eval.evaluator import Eval
-from dataset.base_dataset import DatasetBase
-from utils.llm_chain import MetaChain
-from estimator import give_estimator
+from AutoPrompt.eval.evaluator import Eval
+from AutoPrompt.dataset.base_dataset import DatasetBase
+from AutoPrompt.utils.llm_chain import MetaChain
+from AutoPrompt.estimator import give_estimator
 from pathlib import Path
 import pickle
 import os

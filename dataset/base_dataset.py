@@ -5,7 +5,7 @@ from pathlib import Path
 from datetime import datetime
 import csv
 
-from utils.dedup import Dedup
+from AutoPrompt.utils.dedup import Dedup
 
 class DatasetBase:
     """

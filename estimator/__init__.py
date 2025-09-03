@@ -1,9 +1,9 @@
 import pandas as pd
 
-from .estimator_argilla import ArgillaEstimator
+# from .estimator_argilla import ArgillaEstimator  # Temporarily disabled due to API changes
 from .estimator_llm import LLMEstimator
 from .estimator_llm_batch import LLMBatchEstimator
-from dataset.base_dataset import DatasetBase
+from AutoPrompt.dataset.base_dataset import DatasetBase
 
 
 class DummyEstimator:
@@ -28,7 +28,8 @@ class DummyEstimator:
 
 def give_estimator(opt):
     if opt.method == 'argilla':
-        return ArgillaEstimator(opt.config)
+        # return ArgillaEstimator(opt.config)  # Temporarily disabled due to API changes
+        return DummyEstimator()  # Using dummy estimator for now
     elif opt.method == 'llm':
         return LLMEstimator(opt.config)
     elif opt.method == 'llm_batch':

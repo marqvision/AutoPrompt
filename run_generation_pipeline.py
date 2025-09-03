@@ -1,8 +1,8 @@
-from optimization_pipeline import OptimizationPipeline
-from utils.config import load_yaml, modify_input_for_ranker, validate_generation_config, override_config
+from AutoPrompt.optimization_pipeline import OptimizationPipeline
+from AutoPrompt.utils.config import load_yaml, modify_input_for_ranker, validate_generation_config, override_config
 import argparse
 import os
-from estimator.estimator_llm import LLMEstimator
+from AutoPrompt.estimator.estimator_llm import LLMEstimator
 # General Training Parameters
 parser = argparse.ArgumentParser()
 

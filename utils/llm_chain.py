@@ -1,6 +1,6 @@
 from langchain.chains.openai_functions import (
     create_structured_output_runnable)
-from utils.config import get_llm, load_prompt
+from AutoPrompt.utils.config import get_llm, load_prompt
 from langchain_community.callbacks import get_openai_callback
 import asyncio
 from langchain.chains import LLMChain
