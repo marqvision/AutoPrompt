@@ -22,13 +22,14 @@ predictor:
 #                retry_interval: 10
 #                max_retries: 2
             seed: 220
+            temperature: 1.0 # GPT-5 계열 모델은 1.0만 지원
         num_workers: 10
-        prompt: 'prompts/predictor_completion/prediction.prompt'
+        prompt: 'AutoPrompt/prompts/predictor_completion/prediction.prompt'
         mini_batch_size: 200  #change to >1 if you want to include multiple samples in the one prompt
         mode: 'prediction'
 
 meta_prompts:
-    folder: 'prompts/meta_prompts_classification'
+    folder: 'AutoPrompt/prompts/meta_prompts_classification'
     num_err_prompt: 3  # Number of error examples per sample in the prompt generation
     num_err_samples: 0 # Number of error examples per sample in the sample generation
     history_length: 4 # Number of sample in the meta-prompt history
@@ -47,7 +48,7 @@ eval:
 llm:
     name: 'gpt-5' # This is the meta-prompt LLM, it should be a strong model. For example, using GPT-3.5 will cause an error in many cases.
     type: 'OpenAI' # Can be OpenAI, Anthropic, Google, Azure
-    temperature: 0.8
+    temperature: 1.0 # GPT-5 계열 모델은 1.0만 지원
 
 stop_criteria:
     max_usage: 1 #In $ in case of OpenAI models, otherwise number of tokens

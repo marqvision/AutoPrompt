@@ -8,6 +8,7 @@ from langchain.llms.huggingface_pipeline import HuggingFacePipeline
 from langchain_openai.chat_models import AzureChatOpenAI
 from langchain.chains import LLMChain
 import logging
+import boto3
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,11 @@ class Color:
     YELLOW = '\033[93m'
     BLUE = '\033[94m'
     END = '\033[0m'  # Reset to default color
+
+
+def get_ssm_param(name):
+    ssm = boto3.client("ssm", region_name="us-east-2")
+    return ssm.get_parameter(Name=name, WithDecryption=True)["Parameter"]["Value"]
 
 
 def get_llm(config: dict):
@@ -44,7 +50,7 @@ def get_llm(config: dict):
         api_base = LLM_ENV['openai']['OPENAI_API_BASE'] if LLM_ENV['openai']['OPENAI_API_BASE'] != '' else 'https://api.openai.com/v1'
         if LLM_ENV['openai']['OPENAI_ORGANIZATION'] == '':
             return ChatOpenAI(temperature=temperature, model_name=config['name'],
-                              openai_api_key=config.get('openai_api_key', LLM_ENV['openai']['OPENAI_API_KEY']),
+                              openai_api_key=config.get('openai_api_key', get_ssm_param('autoprompt_openai_api_key')),
                               openai_api_base=config.get('openai_api_base', api_base),
                               model_kwargs=model_kwargs)
         else:
