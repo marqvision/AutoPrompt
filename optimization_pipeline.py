@@ -11,6 +11,8 @@ import json
 import logging
 import wandb
 
+logger = logging.getLogger(__name__)
+
 
 class OptimizationPipeline:
     """
@@ -42,8 +44,9 @@ class OptimizationPipeline:
             if not os.path.isdir(output_path):
                 os.makedirs(output_path)
             self.output_path = Path(output_path)
-            logging.basicConfig(filename=self.output_path / 'info.log', level=logging.DEBUG,
-                                format='%(asctime)s - %(levelname)s - %(message)s', force=True)
+            # Disable own logging
+            # logging.basicConfig(filename=self.output_path / 'info.log', level=logging.DEBUG,
+            #                     format='%(asctime)s - %(levelname)s - %(message)s', force=True)
 
         self.dataset = None
         self.config = config
@@ -62,16 +65,16 @@ class OptimizationPipeline:
     @staticmethod
     def log_and_print(message):
         print(message)
-        logging.info(message)
+        logger.info(message)
 
     def initialize_dataset(self):
         """
         Initialize the dataset: Either empty dataset or loading an existing dataset
         """
-        logging.info('Initialize dataset')
+        logger.info('Initialize dataset')
         self.dataset = DatasetBase(self.config.dataset)
         if 'initial_dataset' in self.config.dataset.keys():
-            logging.info(f'Load initial dataset from {self.config.dataset.initial_dataset}')
+            logger.info(f'Load initial dataset from {self.config.dataset.initial_dataset}')
             self.dataset.load_dataset(self.config.dataset.initial_dataset)
 
     def calc_usage(self):
@@ -145,7 +148,7 @@ class OptimizationPipeline:
             new_samples = [element for sublist in samples_batches for element in sublist['samples']]
             new_samples = self.dataset.remove_duplicates(new_samples)
             self.dataset.add(new_samples, self.batch_id)
-            logging.info('Get new samples')
+            logger.info('Get new samples')
         self.cur_prompt = prompt_suggestion['prompt']
 
     def stop_criteria(self):
@@ -202,7 +205,7 @@ class OptimizationPipeline:
         """
         if self.output_path is None:
             return
-        logging.info('Save state')
+        logger.info('Save state')
         self.dataset.save_dataset(self.output_path / 'dataset.csv')
         state = {'history': self.eval.history, 'batch_id': self.batch_id,
                  'prompt': self.cur_prompt, 'task_description': self.task_description,
@@ -239,18 +242,18 @@ class OptimizationPipeline:
                 {"Prompt": wandb.Html(f"<p>{self.cur_prompt}</p>"), "Samples": wandb.Table(dataframe=random_subset)},
                 step=self.batch_id)
 
-        logging.info('Running annotator')
+        logger.info('Running annotator')
         records = self.annotator.apply(self.dataset, self.batch_id)
         self.dataset.update(records)
 
         self.predictor.cur_instruct = self.cur_prompt
-        logging.info('Running Predictor')
+        logger.info('Running Predictor')
         records = self.predictor.apply(self.dataset, self.batch_id, leq=True)
         self.dataset.update(records)
 
         self.eval.dataset = self.dataset.get_leq(self.batch_id)
         self.eval.eval_score()
-        logging.info('Calculating Score')
+        logger.info('Calculating Score')
         large_errors = self.eval.extract_errors()
         self.eval.add_history(self.cur_prompt, self.task_description)
         if self.config.use_wandb:

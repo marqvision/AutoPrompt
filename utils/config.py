@@ -9,6 +9,9 @@ from langchain_openai.chat_models import AzureChatOpenAI
 from langchain.chains import LLMChain
 import logging
 
+logger = logging.getLogger(__name__)
+
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.dirname(current_dir)
 LLM_ENV = yaml.safe_load(open(os.path.join(root_dir, 'config', 'llm_env.yml'), 'r'))
@@ -128,12 +131,12 @@ def modify_input_for_ranker(config, task_description, initial_prompt):
     task_result = task_llm_chain(
         {"task_description": task_description})
     mod_task_desc = task_result['text']
-    logging.info(f"Task description modified for ranking to: \n{mod_task_desc}")
+    logger.info(f"Task description modified for ranking to: \n{mod_task_desc}")
 
     prompt_llm_chain = LLMChain(llm=llm, prompt=init_prompt_setup)
     prompt_result = prompt_llm_chain({"prompt": initial_prompt, 'label_schema': config.dataset.label_schema})
     mod_prompt = prompt_result['text']
-    logging.info(f"Initial prompt modified for ranking to: \n{mod_prompt}")
+    logger.info(f"Initial prompt modified for ranking to: \n{mod_prompt}")
 
     return mod_prompt, mod_task_desc
 

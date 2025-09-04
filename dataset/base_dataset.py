@@ -7,6 +7,9 @@ import csv
 
 from AutoPrompt.utils.dedup import Dedup
 
+logger = logging.getLogger(__name__)
+
+
 class DatasetBase:
     """
     This class store and manage all the dataset records (including the annotations and prediction)
@@ -109,7 +112,7 @@ class DatasetBase:
         if os.path.isfile(path):
             self.records = pd.read_csv(path, dtype={'annotation': str, 'prediction': str, 'batch_id': int})
         else:
-            logging.warning('Dataset dump not found, initializing from zero')
+            logger.warning('Dataset dump not found, initializing from zero')
 
     def remove_duplicates(self, samples: list) -> list:
         """
