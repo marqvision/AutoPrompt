@@ -17,12 +17,12 @@ predictor:
     config:
         llm:
             type: 'OpenAI'
-            name: 'gpt-5-mini'
+            name: 'gpt-4.1'
 #            async_params:
 #                retry_interval: 10
 #                max_retries: 2
             seed: 220
-            temperature: 1.0 # GPT-5 계열 모델은 1.0만 지원
+            temperature: 0.0 # GPT-5 계열 모델은 1.0만 지원
         num_workers: 10
         prompt: 'AutoPrompt/prompts/predictor_completion/prediction.prompt'
         mini_batch_size: 200  #change to >1 if you want to include multiple samples in the one prompt
@@ -31,11 +31,11 @@ predictor:
 meta_prompts:
     folder: 'AutoPrompt/prompts/meta_prompts_classification'
     num_err_prompt: 3  # Number of error examples per sample in the prompt generation
-    num_err_samples: 0 # Number of error examples per sample in the sample generation
+    num_err_samples: 3 # Number of error examples per sample in the sample generation
     history_length: 4 # Number of sample in the meta-prompt history
-    num_generated_samples: 0 # Number of generated samples at each iteration
+    num_generated_samples: 6 # Number of generated samples at each iteration
     num_initialize_samples: 0 # Number of generated samples at iteration 0, in zero-shot case
-    samples_generation_batch: 1 # Number of samples generated in one call to the LLM
+    samples_generation_batch: 6 # Number of samples generated in one call to the LLM
     num_workers: 1 #Number of parallel workers
     warmup: 4 # Number of warmup steps
 
